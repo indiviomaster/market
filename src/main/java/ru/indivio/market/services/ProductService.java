@@ -1,18 +1,11 @@
 package ru.indivio.market.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import ru.indivio.market.entities.Product;
 import ru.indivio.market.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,36 +19,39 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts() {
-//       Product products = productRepository.findOneByTitle("Коротко: Хороший телевизор Samsung 20");
-//
-//        productRepository.delete(products);
-
-     //   Product product = productRepository.myQuery(1L);
-    //    List<Product> products = productRepository.findAllByPriceBetween(30000.0, 40000.0);
-      //  List<Product> products = (List<Product>) productRepository.findAll();
-
-       // Page<Product> pr = productRepository.findAll(PageRequest.of(id,1));
-//        System.out.println(pr);
-
-     //   Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "Category"));
-      //  List<Product> products = (List<Product>) productRepository.findAll(sort);
-       // List<Product> products = (List<Product>) productRepository.findAll();
-       // List<Product> products =  productRepository.findAllByVendorCode("00000001");
-////
-//        System.out.println(products);
-
-//        List<Product> products = productRepository.findAllByVendorCode();
-//        List<Product> products = new ArrayList<>();
-//        products.add(productRepository.myQuery(1L));
-        Page<Product> pr = productRepository.findAll(PageRequest.of(1,2));
+    public List<Product> getProductsWitMinPrice(){
+        List <Product> pr = productRepository.findProductByMINPrice();
         System.out.println(pr);
 
-//        List<Product> products = new ArrayList<>();
-//       // List<Product> products = productRepository.findAll();
-//       // List<Product> products = productRepository.findAllByPriceBetween(1.0, 8.0);
-//        Product product = productRepository.myQuery(1L);
-//        products.add(product);
+        return pr.stream().collect(Collectors.toList());
+    }
+    public List<Product> getProductsWitMaxPrice(){
+        List <Product> pr = productRepository.findProductByMAXPrice();
+        System.out.println(pr);
+
+        return pr.stream().collect(Collectors.toList());
+    }
+
+    public List<Product> getProductsWitMinMaxPrice(){
+        List <Product> pr = productRepository.findProductByMinMaxPrice();
+        System.out.println(pr);
+
+        return pr.stream().collect(Collectors.toList());
+    }
+
+
+    public List<Product> getAllProducts() {
+
+        //с минимальной ценой
+        //List <Product> pr = productRepository.findProductByMINPrice();
+
+        //с максимальной ценой
+        //List <Product> pr = productRepository.findProductByMAXPrice();
+
+        // страница 5 элементов вывод
+        Page<Product> pr = productRepository.findAll(PageRequest.of(1,4));
+
+        System.out.println(pr);
 
         return pr.stream().collect(Collectors.toList());
     }

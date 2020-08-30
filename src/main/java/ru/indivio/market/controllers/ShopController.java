@@ -38,7 +38,26 @@ public class ShopController {
         model.addAttribute("products", allProducts);
         return "shop-page";
     }
+    @GetMapping("/min")
+    public String shopMinPricePage(Model model) {
+        List<Product> allProducts = productService.getProductsWitMinPrice();
+        model.addAttribute("products", allProducts);
+        return "shop-page";
+    }
 
+    @GetMapping("/max")
+    public String shopMaxPricePage(Model model) {
+        List<Product> allProducts = productService.getProductsWitMaxPrice();
+        model.addAttribute("products", allProducts);
+        return "shop-page";
+    }
+
+    @GetMapping("/minmax")
+    public String shopMinMaxPricePage(Model model) {
+        List<Product> allProducts = productService.getProductsWitMinMaxPrice();
+        model.addAttribute("products", allProducts);
+        return "shop-page";
+    }
 
 
     @GetMapping("/ajax")

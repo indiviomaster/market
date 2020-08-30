@@ -15,6 +15,22 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     List<Product> findAllByVendorCode(String vendorCode);
 
     List<Product> findAll();
+    //List<Product> findProductByPriceBetween();
+
+    @Query(value ="SELECT id, category_id, short_description," +
+            "create_at, full_description, title, price, vendor_code," +
+            "title FROM market_db.products order by price DESC LIMIT 1", nativeQuery = true)
+    List<Product> findProductByMAXPrice();
+
+    @Query(value ="SELECT id, category_id, short_description," +
+            "create_at, full_description, title, price, vendor_code," +
+            "title FROM market_db.products order by price ASC LIMIT 1", nativeQuery = true)
+    List<Product> findProductByMINPrice();
+
+
+    @Query(value ="SELECT id, category_id, short_description,create_at, full_description, title, price, vendor_code, title FROM market_db.products\n" +
+            "    WHERE price IN ((SELECT MAX(price) FROM products), (SELECT MIN(price) FROM products))", nativeQuery = true)
+    List<Product> findProductByMinMaxPrice();
 
 
     List<Product> findAllByTitleAndPrice(String title, double price);
